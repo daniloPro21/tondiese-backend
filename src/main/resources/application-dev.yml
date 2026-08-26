@@ -1,0 +1,63 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:tondise_test}
+    username: ${DB_USERNAME:postgres_user}
+    password: ${DB_PASSWORD:postgres_password}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/tondise}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  cache:
+    type: redis
+
+tondise:
+  identity-provider:
+    keycloak:
+      realm: ${KEYCLOAK_REALM:tondise}
+      auth-server-url: ${KEYCLOAK_AUTH_SERVER_URL:http://localhost:8080}
+      client-id: ${KEYCLOAK_CLIENT_ID:tondise-backend}
+      client-secret: ${KEYCLOAK_CLIENT_SECRET:changeme-dev-secret}
+      public-client-id: ${KEYCLOAK_PUBLIC_CLIENT_ID:tondise-web}
+  errors:
+    expose-details: true
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+  payments:
+    stripe:
+      publishable-key: ${STRIPE_PUBLISHABLE_KEY:}
+      secret-key: ${STRIPE_SECRET_KEY:}
+
+s3:
+  url: ${MINIO_URL:http://localhost:9000}
+  access:
+    name: ${MINIO_ACCESS_KEY:tondise}
+    secret: ${MINIO_SECRET_KEY:tondise123}
+  bucket:
+    name: ${MINIO_BUCKET:tondise}
+  folder: ${MINIO_FOLDER:products}
+
+logging:
+  level:
+    com.tondise.ecommerce: DEBUG

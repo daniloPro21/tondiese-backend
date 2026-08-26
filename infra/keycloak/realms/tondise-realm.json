@@ -1,0 +1,68 @@
+{
+  "realm": "tondise",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "roles": {
+    "realm": [
+      { "name": "USER", "description": "Client Tondise" },
+      { "name": "ADMIN", "description": "Back-office Tondise" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "tondise-backend",
+      "name": "Tondise Backend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "bearerOnly": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "changeme-dev-secret",
+      "serviceAccountsEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "authorizationServicesEnabled": false,
+      "redirectUris": ["*"],
+      "fullScopeAllowed": true
+    },
+    {
+      "clientId": "tondise-web",
+      "name": "Tondise Web (front)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "bearerOnly": false,
+      "serviceAccountsEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"],
+      "fullScopeAllowed": true
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-tondise-backend",
+      "enabled": true,
+      "serviceAccountClientId": "tondise-backend",
+      "clientRoles": {
+        "realm-management": ["manage-users", "view-users", "query-users", "manage-realm", "view-clients", "query-clients"]
+      }
+    },
+    {
+      "username": "admin@tondise.local",
+      "email": "admin@tondise.local",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Tondise",
+      "lastName": "Admin",
+      "credentials": [
+        { "type": "password", "value": "admin123", "temporary": false }
+      ],
+      "realmRoles": ["ADMIN", "USER"]
+    }
+  ]
+}
